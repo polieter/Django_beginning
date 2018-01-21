@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  {{ board.name }} - {{ block.super }}
+{% endblock %}
+
+
+{% block breadcrumb %}
+    <div class="col s12">
+        <a href="{% url 'home' %}" class="breadcrumb">Boards</a>
+        <a href="{% url 'board_topics' board.pk %}" class="breadcrumb">{{ board.name }}</a>
+        <ul class="right hide-on-med-and-down">
+            <li><a href="{% url 'new_topic' board.pk %}">Add new topic</a></li>
+        </ul>
+    </div>
+{% endblock %}
+
+
+{% block content %}
+    <table class="bordered highlight">
+        <thead class="indigo lighten-4">
+          <tr>
+            <th>Topic</th>
+            <th>Starter</th>
+            <th>Replies</th>
+            <th>Views</th>
+            <th>Last Update</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for topic in board.topics.all %}
+            <tr>
+              <td>{{ topic.subjects }}</td>
+              <td>{{ topic.starter.username }}</td>
+              <td>0</td>
+              <td>0</td>
+              <td>{{ topic.last_updated }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

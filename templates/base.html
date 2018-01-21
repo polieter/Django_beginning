@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Django Boards{% endblock %}</title>
+        <link rel="stylesheet" href="{% static 'css/materialize.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/django_begining.css' %}">
+        <script type="text/javascript" src="{% static 'js/materialize.min.js' %}"></script>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+
+    <body>
+
+        <nav class="indigo lighten-3 boards_nav">
+            <div class="nav-wrapper container">
+                <a href="{% url 'home' %}" class="brand-logo">Django Boards</a>
+            </div>
+        </nav>
+
+
+        <div class="container">
+
+            <nav class="indigo lighten-4 boards_nav_breadcrumb">
+                <div>
+                    {% block breadcrumb %}
+                    {% endblock %}
+                </div>
+            </nav>
+
+            {% block content %}
+            {% endblock %}
+
+        </div>
+
+    </body>
+
+</html>
