@@ -22,8 +22,8 @@ class Topic(models.Model):
 
 class Post(models.Model):
     message = models.TextField(max_length=4000)
-    topic = models.ForeignKey(Topic, related_name='post')
+    topic = models.ForeignKey(Topic, related_name='posts')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(null=True)
-    created_by = models.ForeignKey(User, related_name='post')
+    created_by = models.ForeignKey(User, related_name='posts')
     updatet_by = models.ForeignKey(User, null=True, related_name='+')

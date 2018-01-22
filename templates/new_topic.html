@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load widget_tweaks %}
+
 {% block title %}Start a New Topic{% endblock %}
 
 {% block breadcrumb %}
@@ -11,20 +13,12 @@
 {% endblock %}
 
 {% block content %}
+  <form method="post" novalidate>
 
-    <form method="post">
     {% csrf_token %}
+    {% include 'includes/form.html' %}
+    <button type="submit" class="btn btn-success">Post</button>
 
-    <div class="input-field boards_input">
-        <input id="id_subject" type="text" class="validate" name="subject">
-        <label class="active" for="id_subject" >Subject</label>
-    </div>
+  </form>
 
-    <div class="input-field">
-        <textarea id="id_message" class="materialize-textarea" name="message"></textarea>
-        <label class="active" for="id_message">Message</label>
-    </div>
-    <button type="submit" class="waves-effect waves-light btn indigo lighten-3"><i class="material-icons left">local_post_office</i>Post</button>
-
-    </form>
 {% endblock %}
