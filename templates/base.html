@@ -11,13 +11,19 @@
         <script type="text/javascript" src="{% static 'js/materialize.min.js' %}"></script>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        {% block stylesheet %}{% endblock %}
     </head>
 
     <body>
 
+    {% block body %}
+
         <nav class="indigo lighten-3 boards_nav">
             <div class="nav-wrapper container">
                 <a href="{% url 'home' %}" class="brand-logo">Django Boards</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="#">{{ user.username }}</a></li>
+                </ul>
             </div>
         </nav>
 
@@ -35,6 +41,8 @@
             {% endblock %}
 
         </div>
+
+    {% endblock body %}
 
     </body>
 
