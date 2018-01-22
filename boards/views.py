@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Boards, Topic, Post
+from .forms import NewTopicForm
 
 
 def home(request):
@@ -15,25 +16,23 @@ def board_topics(request, board_primary_key):
 
 def new_topic(request, board_primary_key):
     board = get_object_or_404(Boards, pk=board_primary_key)
+    user = User.objects.first()
 
     if request.method == 'POST':
-        subject = request.POST['subject']
-        message = request.POST['message']
+        form = NewTopicForm(request.POST)
 
-        user = User.objects.first()
+        if form.is_valid():
+            topic = form.save(commit=False)
+            topic.board = board
+            topic.starter = user
+            topic.save()
 
-        topic = Topic.objects.create(
-            subjects=subject,
-            board=board,
-            starter=user
-        )
-
-        post = Post.objects.create(
-            message=message,
-            topic=topic,
-            created_by=user
-        )
-
-        return redirect('board_topics', board_primary_key=board.pk)
-
-    return render(request, 'new_topic.html', {'board': board})
+            post = Post.objects.create(
+                message=form.cleaned_data.get('message'),
+                topic=topic,
+                created_by=user
+            )
+            return redirect('board_topics', board_primary_key=board.pk)
+    else:
+        form = NewTopicForm()
+    return render(request, 'new_topic.html', {'board': board, 'form': form})
