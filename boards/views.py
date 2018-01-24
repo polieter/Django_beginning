@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Boards, Topic, Post
@@ -14,6 +15,7 @@ def board_topics(request, board_primary_key):
     return render(request, 'topics.html', {'board': board})
 
 
+@login_required
 def new_topic(request, board_primary_key):
     board = get_object_or_404(Boards, pk=board_primary_key)
     user = User.objects.first()
@@ -24,7 +26,7 @@ def new_topic(request, board_primary_key):
         if form.is_valid():
             topic = form.save(commit=False)
             topic.board = board
-            topic.starter = user
+            topic.starter = request.user
             topic.save()
 
             post = Post.objects.create(
