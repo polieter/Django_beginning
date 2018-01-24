@@ -3,7 +3,9 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.urls import resolve
 from django.test import TestCase
-from .views import signup
+
+from ..views import signup
+from ..forms import SignUpForm
 
 
 class SignUpTests(TestCase):
@@ -24,6 +26,16 @@ class SignUpTests(TestCase):
     def test_contains_form(self):
         form = self.response.context.get('form')
         self.assertIsInstance(form, UserCreationForm)
+
+    def test_form_inputs(self):
+        '''
+        The view must contain five inputs: csrf, username, email,
+        password1, password2
+        '''
+        self.assertContains(self.response, '<input', 5)
+        self.assertContains(self.response, 'type="text"', 1)
+        self.assertContains(self.response, 'type="email"', 1)
+        self.assertContains(self.response, 'type="password"', 2)
 
 
 class SuccessfulSignUpTests(TestCase):
@@ -58,3 +70,9 @@ class SuccessfulSignUpTests(TestCase):
         self.assertTrue(user.is_authenticated)
 
 
+class SignUpFormTest(TestCase):
+    def test_form_has_fields(self):
+        form = SignUpForm()
+        expected = ['username', 'email', 'password1', 'password2',]
+        actual = list(form.fields)
+        self.assertSequenceEqual(expected, actual)

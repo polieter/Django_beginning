@@ -5,6 +5,9 @@
 
 
   <div class="container">
+  <h1 class="text-center logo my-4">
+          <a href="{% url 'home' %}">Django Boards</a>
+        </h1>
     <h2>Sign up</h2>
 
     <form method="post" novalidate>
@@ -14,6 +17,11 @@
 
       <button type="submit" class="btn btn-primary">Create an account</button>
     </form>
+
+    <div class="center-align">
+        Already have an account? <a href="{% url 'login' %}">Log in</a>
+    </div>
+
   </div>
 
 
