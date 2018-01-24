@@ -19,6 +19,7 @@ class BaseTestClass(TestCase):
     def setUp(self):
         self.board = Boards.objects.create(name='Django', description='Django boards.')
         User.objects.create_user(username='john', email='john@doe.com', password='123')
+        self.client.login(username='john', password='123')
 
     def view_status_code_test(self, url_name, status_code, **kwargs):
         url = reverse(url_name, **kwargs)
