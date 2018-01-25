@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Django Boards{% endblock %}</title>
+        <link rel="stylesheet" href="{% static 'css/materialize.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/django_begining.css' %}">
+        <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+        <script type="text/javascript" src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/materialize.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/dropdown_menu.js' %}"></script>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        {% block stylesheet %}{% endblock %}
+    </head>
+
+    <body>
+
+    {% block body %}
+
+        {% if user.is_authenticated %}
+        <!-- Dropdown Structure -->
+        <ul id="dropdown1" class="dropdown-content">
+          <li><a href="#!">My account</a></li>
+          <li class="divider"></li>
+          <li><a href="{% url 'password_change' %}">Change password</a></li>
+          <li class="divider"></li>
+          <li><a href="{% url 'logout' %}">Log out</a></li>
+        </ul>
+        {% endif %}
+
+        <nav class="indigo lighten-3 boards_nav">
+            <div class="nav-wrapper container">
+                <a href="{% url 'home' %}" class="brand-logo">Django Boards</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    {% if user.is_authenticated %}
+                    <li><a class="dropdown-button" href="#!" data-activates="dropdown1">{{ user.username }}<i class="material-icons right">arrow_drop_down</i></a></li>
+                    {% else %}
+                        <li><a href="{% url 'login' %}" class="waves-effect waves-light btn indigo darken-1">Log in</a></li>
+                        <li><a href="{% url 'signup' %}" class="waves-effect waves-light btn indigo darken-1">Sign up</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+
+
+        <div class="container">
+
+            <nav class="indigo lighten-4 boards_nav_breadcrumb">
+                <div>
+                    {% block breadcrumb %}
+                    {% endblock %}
+                </div>
+            </nav>
+
+            {% block content %}
+            {% endblock %}
+
+        </div>
+
+    {% endblock body %}
+
+    </body>
+
+
+
+
+</html>
