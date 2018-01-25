@@ -18,23 +18,26 @@ def board_topics(request, board_primary_key):
 @login_required
 def new_topic(request, board_primary_key):
     board = get_object_or_404(Boards, pk=board_primary_key)
-    user = User.objects.first()
-
     if request.method == 'POST':
         form = NewTopicForm(request.POST)
-
         if form.is_valid():
             topic = form.save(commit=False)
             topic.board = board
-            topic.starter = request.user
+            topic.starter = request.user  # <- here
             topic.save()
 
-            post = Post.objects.create(
+            Post.objects.create(
                 message=form.cleaned_data.get('message'),
                 topic=topic,
-                created_by=user
+                created_by=request.user  # <- and here
             )
             return redirect('board_topics', board_primary_key=board.pk)
     else:
         form = NewTopicForm()
     return render(request, 'new_topic.html', {'board': board, 'form': form})
+
+
+def topic_posts(request, board_primary_key, topic_pk):
+    board = get_object_or_404(Boards, pk=board_primary_key)
+    topic = get_object_or_404(Topic, board__pk=board_primary_key, pk=topic_pk)
+    return render(request, 'topic_posts.html', {'topic': topic, 'board': board})
