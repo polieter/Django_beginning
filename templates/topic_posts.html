@@ -7,10 +7,10 @@
 {% block breadcrumb %}
       <div class="col s12">
         <a href="{% url 'home' %}" class="breadcrumb">Boards</a>
-        <a href="{% url 'board_topics' board.pk %}" class="breadcrumb">{{ board.name }}</a>
-        <a href="{% url 'topic_posts' board.pk topic.pk %}" class="breadcrumb">{{ topic.subjects }}</a>
+        <a href="{% url 'board_topics' topic.board.pk %}" class="breadcrumb">{{ topic.board.name }}</a>
+        <a href="{% url 'topic_posts' topic.board.pk topic.pk %}" class="breadcrumb">{{ topic.subjects }}</a>
         <ul class="right hide-on-med-and-down">
-            <li><a href="{% url 'new_topic' board.pk %}">Add new topic</a></li>
+            <li><a href="{% url 'new_topic' topic.board.pk %}">Add new topic</a></li>
         </ul>
     </div>
 {% endblock %}
@@ -18,7 +18,7 @@
 {% block content %}
 
   <div class="mb-4">
-    <a href="{% url 'reply_topic' board.pk topic.pk %}" class="btn btn-primary" role="button">Reply</a>
+    <a href="{% url 'reply_topic' topic.board.pk topic.pk %}" class="btn btn-primary" role="button">Reply</a>
   </div>
 
   {% for post in topic.posts.all %}
