@@ -1,60 +1,67 @@
 {% if is_paginated %}
 
+    <ul class="pagination center-align">
 
-      <ul class="pagination center-align">
+      {% if page_obj.number > 1 %}
 
-        {% if page_obj.has_previous %}
+        <li class="waves-effect"><a href="?page=1"><i class="material-icons">arrow_back</i></a></li>
 
-          <li class="waves-effect">
-          <a href="?page={{ page_obj.previous_page_number }}">
-              <i class="material-icons">chevron_left</i>
-          </a>
+      {% else %}
+
+          <li class="disabled"><a><i class="material-icons">arrow_back</i></a></li>
+
+      {% endif %}
+
+      {% if page_obj.has_previous %}
+
+        <li class="waves-effect">
+          <a href="?page={{ page_obj.previous_page_number }}"><i class="material-icons">chevron_left</i></a>
         </li>
 
       {% else %}
 
-        <li class="disabled">
-          <a href="#!">
-              <i class="material-icons">chevron_left</i>
-          </a>
+        <li class="page-item disabled">
+        <a><i class="material-icons">chevron_left</i></a>
         </li>
 
       {% endif %}
 
-        {% for page_num in paginator.page_range %}
+      {% for page_num in paginator.page_range %}
 
-          {% if page_obj.number == page_num %}
+        {% if page_obj.number == page_num %}
 
-            <li class="active indigo lighten-2"><a href="#!">{{ page_num }}</a></li>
+          <li class="active indigo lighten-2"><a href="#!">{{ page_num }}</a></li>
 
-          {% else %}
+        {% elif page_num > page_obj.number|add:'-3' and page_num < page_obj.number|add:'3' %}
 
-            <li class="waves-effect">
-              <a href="?page={{ page_num }}">{{ page_num }}</a>
-
-            </li>
-
-          {% endif %}
-
-        {% endfor %}
-
-        {% if page_obj.has_next %}
-
-          <li class="waves-effect">
-            <a href="?page={{ page_obj.next_page_number }}">
-                <i class="material-icons">chevron_right</i>
-            </a>
-          </li>
-
-        {% else %}
-
-           <li class="disabled">
-               <a href="#!"><i class="material-icons">chevron_right</i></a>
-           </li>
+          <li class="waves-effect"><a href="?page={{ page_num }}">{{ page_num }}</a></li>
 
         {% endif %}
 
-      </ul>
+      {% endfor %}
 
+      {% if page_obj.has_next %}
+
+        <li class="waves-effect">
+          <a href="?page={{ page_obj.next_page_number }}"><i class="material-icons">chevron_right</i></a>
+        </li>
+
+      {% else %}
+
+        <li class="disabled"><a><i class="material-icons">chevron_right</i></a></li>
 
       {% endif %}
+
+      {% if page_obj.number != paginator.num_pages %}
+
+        <li class="waves-effect"><a href="?page={{ paginator.num_pages }}"><i class="material-icons">arrow_forward</i></a></li>
+
+      {% else %}
+
+        <li class="disabled"><a><i class="material-icons">arrow_forward</i></a></li>
+
+      {% endif %}
+
+    </ul>
+
+{% endif %}
