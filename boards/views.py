@@ -65,7 +65,6 @@ class PostListView(ListView):
     paginate_by = 5
 
     def get_context_data(self, **kwargs):
-
         session_key = 'viewed_topic_{}'.format(self.topic.pk)
         if not self.request.session.get(session_key, False):
             self.topic.views += 1
