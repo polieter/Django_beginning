@@ -1,3 +1,7 @@
 .boards_nav{
+    margin: 0 0 10px 0;
+}
+
+.boards_nav_breadcrumb{
     margin: 10px 0 10px 0;
 }
